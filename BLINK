@@ -1,0 +1,22 @@
+/* Blink 
+Turn an internal LED ON for one secod and then OFF for one second.
+Using the constant in arduino LED_BUILTIN wich allows to control the built-in LED easily. 
+On Arduino UNO the pin 13 is a digital pin that is used for this programm.
+If we connect an external LED to pin 13 , it will act the same way as the built-in LED.
+The main theme in Blink is using the digitalWrite command with a Digital Output.
+*/
+
+
+void setup() {
+//put your setup code here, to run once:
+  pinMode(LED_BUILTIN, OUTPUT); // initialize digital pin LED_BUILTIN as an output.
+}
+
+
+void loop() {
+//put your main code here, to run repeatedly: 
+  digitalWrite(LED_BUILTIN, HIGH);  // turn the LED on by making the voltage leve HIGH
+  delay(1000);                      // wait for a second
+  digitalWrite(LED_BUILTIN, LOW);   // turn the LED off by making the voltage LOW
+  delay(1000);                      // wait for a second
+}       
