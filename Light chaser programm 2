@@ -1,0 +1,57 @@
+/* Code to make blink LEDS one by one from one way back to the other. 
+They will start from left to right, from right to left back in a loop.
+This program consist of four LEDS that each blink when HIGH and do not blink when LOW.
+They each have their turn to blink, they are programmed by turn.
+The main theme of the program is the use of digital Write with multiple Digital Outputs.
+ */
+
+int Time_wait=1000;  // declaring the integer variable Time_wait 
+                     // 1000 is the value of Time_wait variable 
+                     
+
+// the setup function runs once when you press reset or power the board
+void setup() {
+  // initialize digital pin LED_BUILTIN as an output.
+  pinMode(13, OUTPUT); // pin 13 on UNO is used for an output
+  pinMode(12, OUTPUT); // pin 12 on UNO is used for an output
+  pinMode(11, OUTPUT); // pin 11 on UNO is used for an output
+  pinMode(10, OUTPUT); // pin 10 on UNO is used for an output
+}
+
+// the loop function runs over and over again forever
+void loop() {
+  digitalWrite(13, HIGH);   // turn the LED on (HIGH is the voltage level)
+  delay(Time_wait);                       // wait for a second
+  digitalWrite(13, LOW);    // ttheurn  LED off by making the voltage LOW
+  delay(Time_wait);                       // wait for a second
+  digitalWrite(12, HIGH);   // turn the LED on (HIGH is the voltage level)
+  delay(Time_wait);                       // wait for a second
+  digitalWrite(12, LOW);    // turn the LED off by making the voltage LOW
+  delay(Time_wait);                       // wait for a second
+  digitalWrite(11, HIGH);   // turn the LED on (HIGH is the voltage level)
+  delay(Time_wait);                       // wait for a second
+  digitalWrite(11, LOW);    // turn the LED off by making the voltage LOW
+  delay(Time_wait);                       // wait for a second
+  digitalWrite(10, HIGH);   // turn the LED on (HIGH is the voltage level)
+  delay(Time_wait);                       // wait for a second
+  digitalWrite(10, LOW);    // turn the LED off by making the voltage LOW
+  delay(Time_wait);                       // wait for a second
+  // This is the moment when the chaser goes to the another way 
+  digitalWrite(10, HIGH);   // turn the LED on (HIGH is the voltage level)
+  delay(Time_wait);                       // wait for a second
+  digitalWrite(10, LOW);    // turn the LED off by making the voltage LOW
+  delay(Time_wait);                       // wait for a second
+  digitalWrite(11, HIGH);   // turn the LED on (HIGH is the voltage level)
+  delay(Time_wait);                       // wait for a second
+  digitalWrite(11, LOW);    // turn the LED off by making the voltage LOW
+  delay(Time_wait);                       // wait for a second
+  digitalWrite(12, HIGH);   // turn the LED on (HIGH is the voltage level)
+  delay(Time_wait);                       // wait for a second
+  digitalWrite(12, LOW);    // turn the LED off by making the voltage LOW
+  delay(Time_wait);                       // wait for a second
+  digitalWrite(13, HIGH);   // turn the LED on (HIGH is the voltage level)
+  delay(Time_wait);                       // wait for a second
+  digitalWrite(13, LOW);    // ttheurn  LED off by making the voltage LOW
+  delay(Time_wait);                       // wait for a second
+}
+
