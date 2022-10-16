@@ -1,0 +1,50 @@
+/* This program uses a PB with a pullup and an RGB. 
+Using an internal resistor only for the PB pullup .
+This code allow to read the digital input on pin 12 and print the value on the serial monitor.
+When PB is pressed the value is 0 because it is connected to the GND.
+-RGB: using three pins with three colors.
+When command digitalWrite(Pin name, PBstate); is used for each pin 
+the RGB turns white when PB is not pressed and truns off when PB is pressed. 
+The RGB functions with the PB because of the PBstate command. 
+
+Using Serial.print("") that prints data to the serial port as human-readable ASCII text.
+The main theme of this program is the use of 
+the command INPUT_PULLUP that is for an internal resistor. 
+
+ */
+ 
+// constants won't change. They are  used to set pin numbers:
+const int BUTTON_PIN= 12; // the number of the pushbutton pin
+const int RED_LED=11  ;    // the number of the red RGB pin
+const int GREEN_LED=10 ;   // the number of the green RGB pin
+const int BLUE_LED =9  ;   // the number of the blue RGB pin
+
+void setup() {
+// put your setup code here, to run once:
+Serial.begin(9600);  
+//initialize serial communication at 9600 bits per second
+pinMode(BUTTON_PIN,INPUT_PULLUP); 
+//configure pin 12 as an input and enable the internal pull-up resistor
+pinMode(RED_LED,OUTPUT);
+//configure pin 11 as an output
+pinMode(GREEN_LED, OUTPUT);
+//configure pin 10 as an output
+pinMode(BLUE_LED, OUTPUT);
+//configure pin 9 as an output
+}
+void loop() {
+// put your main code here, to run repeatedly:
+int PBstate = digitalRead(12);  
+// Show the state of pushbutton on serial monitor
+Serial.print("PB value is ");
+//print data to the serial port as human-readable ASCII text
+Serial.println(PBstate);
+//print out the value of the pushbutton
+delay(100);// delay between each read for stability 
+
+// For the following command , the RGB funtions along with the PB state 
+digitalWrite(RED_LED, PBstate);   // turn the LED on when PB is not pressed 
+digitalWrite(GREEN_LED,PBstate);   // turn the LED on when PB is not pressed 
+digitalWrite(BLUE_LED ,PBstate);   // turn the LED on when PB is not pressed 
+}
+
