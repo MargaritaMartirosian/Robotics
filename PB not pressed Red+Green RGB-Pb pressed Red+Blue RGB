@@ -1,0 +1,53 @@
+/* This program uses a PB with an internal resistor using the command INPUT_PULLUP.
+ The main idea is to make and RGB change color with a PB. 
+ When PB is not pressed RGB is yellow (Red+green).
+ When PB is pressed RGB is magenta (Red + Blue).
+ We make the RGB function with the internal resistor ,
+ when PB pressed the voltage is 0v, when PB is not pressed the voltage is 5v.
+ Using the if and else we give a condition that is true or not. 
+ The main theme of this program is conditions for digital output and input. 
+ 
+ */
+
+
+// the setup function runs once when you press reset or power the board
+int pinButton = 12; 
+void setup() {
+  // initialize digital pin LED_BUILTIN as an output.
+  pinMode(11, OUTPUT);//configure pin 11 as an output
+  pinMode(10,OUTPUT); //configure pin 10 as an output
+  pinMode(9,OUTPUT);  //configure pin 9 as an output
+  pinMode(pinButton, INPUT_PULLUP);  
+  //configure pin 12 as an input and enable the internal pull-up resistor 
+ 
+  Serial.begin(9600);
+  //initialize serial communication at 9600 bits per second
+}
+
+  // the loop function runs over and over again forever
+void loop() {
+
+ int stateButton = digitalRead(pinButton);     
+    // Show the state of pushbutton on serial monitor
+    // declaring the integer stateButton 
+
+ if (stateButton ==   HIGH){ 
+  // state button = HIGH because we are using pullup 
+  // if button is not pressed RGB will be yellow 
+  Serial.println(stateButton);
+    digitalWrite(11,HIGH); // turn LED pin 11 on when PB not pressed 
+    digitalWrite(10,HIGH); // turn LED pin 10 on when PB not pressed 
+    digitalWrite(9,LOW);   // turn LED pin 11 off when PB not pressed 
+ }
+  
+  else if  (stateButton == LOW) {
+    // state button =LOW because we are using pullup 
+    // if button is pressed RGB will be magenta 
+    Serial.println(stateButton);
+    digitalWrite(11,HIGH); // turn LED pin 11 on when PB is pressed 
+    digitalWrite(10,LOW);  // turn LED pin 10 off when PB is pressed 
+    digitalWrite(9,HIGH);  // turn LED pin 9 on when PB is pressed 
+   }
+ 
+}
+
