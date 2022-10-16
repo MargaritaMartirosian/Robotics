@@ -1,0 +1,50 @@
+/*This program is used to display a PB value on a serial monitor 
+ at the same time with a blink LED, without using the Delay command.
+ Turn on and off an LED that is connected to a digital pin. 
+ A PB that that is  connected to a digital pin, showing its value on the serial monitor.
+ Instead of Delay , using the Millis() command in the code. 
+ Use the INPUT_PULLUP for the PB to have an internal resistor.
+ Main theme of programm: using Blink without Delay 
+ */
+
+
+const int ledPin =  LED_BUILTIN; // the number of the LED pin
+int ledState = LOW;              // ledState used to set the LED
+
+                                  // "unsigned long" is generally for variables that hold time
+                                  // We use unsigned long because the values can be too large for integer.
+unsigned long previousMillis = 0; //store last time LED was updated.       
+const long interval = 500;        // time that the LED will blink        
+int PBpin= 2;                     // PBpin aPush Button pin assigned to pin 2
+
+
+
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(9600);             //initialize serial communication at 9600 bits per second
+  pinMode(ledPin, OUTPUT);        // set the digital pin as output
+  pinMode(PBpin, INPUT_PULLUP);   // set the digital pin as an input with an internal resistor 
+}
+void loop() {
+  // put your main code here, to run repeatedly:
+  int PBstate=digitalRead(2);    // Show the state of pushbutton on serial monitor
+  Serial.println(PBstate);       //print out the value of the pushbutton
+  unsigned long currentMillis = millis();
+
+  if (currentMillis - previousMillis >= interval) {
+   // save the last time you blinked the LED
+    previousMillis = currentMillis;
+   
+   // if the LED is LOW turn it HIGH and vice-versa:
+    if (ledState == LOW) {       //If it is off 
+      ledState = HIGH;           // Set the LED on
+    } else {
+      ledState = LOW;            //Set the LED off 
+      //goes repeatedly(in a loop) 
+    }
+    // set the LED with the ledState of the variable:
+    // the pin and the state 
+    digitalWrite(ledPin, ledState);
+  }
+}
+ 
