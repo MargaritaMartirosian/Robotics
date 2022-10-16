@@ -1,0 +1,52 @@
+/* The RGB module can be used to generate different colors by mixing Red, green and blue.
+They are called primary colors.
+When looking at the color chart, every color has its own decimal (R,G,B).
+Each number goes from zero to 255.
+Using the command analogWrite and the analog output pins on arduino UNO,
+pins 3,5,6,9,10,11 have a PWM capability.
+This programm is an RGB selectro for color and its main theme is the command analogWrite().
+*/
+
+int Red_led = 11;  //creates a variable integer for red pin
+int Green_led = 10;//creates a variable integer for green pin
+int Blue_led = 9;  //creates a variable integer for blue pin 
+
+
+void setup() {
+  // put your setup code here, to run once:
+pinMode(Red_led, OUTPUT); //configure pin 11 as an output 
+pinMode(Green_led,OUTPUT);//configure pin 10 as an output 
+pinMode(Blue_led,OUTPUT); //configure  pin 9 as an output
+ 
+  }
+void RGB_color (int red, int green, int blue )
+//three integer values 
+//user defined function
+{ analogWrite(Red_led, red) ;   // pin 11 connected to integer value red 
+  analogWrite(Green_led, green);// pin 10 connected to integer value green 
+  analogWrite(Blue_led,blue);   // pin 9 connected to integer value blue
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  // the command that is following is for chosing a color by varying 
+  // each color: red, green , blue.
+  RGB_color(255,127,80); // Coral
+  delay(1000);   // wait for a second
+  RGB_color(0,255,127); // spring green
+  delay(1000);  // wait for a second
+  RGB_color(255,20,147); // deep pink
+  delay(1000);  // wait for a second
+  RGB_color(255,165,0); // Orange  
+  delay(1000);  // wait for a second
+  RGB_color(100,149,237); // Corn flower blue 
+  delay(1000);  // wait for a second
+  RGB_color(0,0,128); // Navy  
+  delay(1000);  // wait for a second
+   RGB_color(173,255,47); // Green yellow
+  delay(1000);  // wait for a second
+   RGB_color(205,92,92); // Indian red 
+  delay(1000);  // wait for a second
+   RGB_color(138,43,226); // Blue violet 
+  delay(1000);  // wait for a second
+}
