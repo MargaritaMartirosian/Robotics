@@ -2,7 +2,7 @@
 Using an internal resistor only for the PB pullup .
 This code allow to read the digital input on pin 12 and print the value on the serial monitor.
 When PB is pressed the value is 0 because it is connected to the GND.
--RGB: using three pins with three colors.
+RGB: using three pins with three colors.
 When command digitalWrite(Pin name, PBstate); is used for each pin 
 the RGB turns white when PB is not pressed and truns off when PB is pressed. 
 The RGB functions with the PB because of the PBstate command. 
