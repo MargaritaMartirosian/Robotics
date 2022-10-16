@@ -1,0 +1,80 @@
+/*This program is meant to be able to manipulate the potentiometer voltage level
+displayed on 5 LEDs. Power on a different LED when manipulating the potentiometer.
+As the voltage increase one by one light up.
+Using pin A0, Analog for potentiometer.
+The main theme of the program is Digital to Analog.
+ */
+
+int Red_LED= 11;           // red LED connected to pin 11
+int Blue_LED=10;           // blue LED connected to pin 10
+int Yellow_LED=9;          // yellow LED connected to pin 9
+int Green_LED= 6;          // green LED connected to pin 6
+int Blue_LED_2 = 3;        // blue LED 2 connected to pin 3
+int potentiometer_pin=A0;  // potentiometer connected to Analog pin (A0)
+int LED_NUMBER =5;         // number og LED used 
+
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(Red_LED,OUTPUT);   // pin 11 on UNO is used for Output 
+  pinMode(Blue_LED,OUTPUT);  // pin 10 on UNO is used for Output 
+  pinMode(Yellow_LED,OUTPUT);// pin 9 on UNO is used for Output 
+  pinMode(Green_LED,OUTPUT); // pin 6 on UNO is used for Output 
+  pinMode(Blue_LED_2,OUTPUT);// pin 3 on UNO is used for Output 
+ 
+}
+void loop() {
+  // put your main code here, to run repeatedly:
+
+ int potentiometerValue=analogRead(potentiometer_pin);
+ //Voltage value = Reading pin (A0) 
+ int ledChoice = potentiometerValue / (1023/LED_NUMBER );
+// integer number between 0 and 1023
+
+
+ if (ledChoice > LED_NUMBER - 1) {
+      ledChoice = LED_NUMBER - 1;
+  //when ledChoice is bigger than (5-1) ledChoice will be  = 5  - 1 
+ } 
+   if (ledChoice == 0) {          // power on only LED one
+    digitalWrite(Red_LED, HIGH);  // LED turns on 
+    digitalWrite(Blue_LED, LOW);  // LED is off
+    digitalWrite(Yellow_LED, LOW);// LED is off
+    digitalWrite(Green_LED,LOW);  // LED is off
+    digitalWrite(Blue_LED_2,LOW); // LED is off
+  }
+  else if (ledChoice == 1) {      // power on only LED two
+   digitalWrite(Red_LED, LOW);    // LED is off
+    digitalWrite(Blue_LED, HIGH); // LED turns on
+    digitalWrite(Yellow_LED, LOW);// LED is off
+    digitalWrite(Green_LED,LOW);  // LED is off
+    digitalWrite(Blue_LED_2,LOW) ;// LED is off
+  }
+  else if  (ledChoice == 2)  {     // power on only LED three
+    digitalWrite(Red_LED, LOW);    // LED is off
+    digitalWrite(Blue_LED, LOW);   // LED is off
+    digitalWrite(Yellow_LED, HIGH);// LED turns on
+    digitalWrite(Green_LED,LOW);   // LED is off
+    digitalWrite(Blue_LED_2,LOW);  // LED is off
+  }
+ 
+ else if (ledChoice == 3) {       // power on only LED four
+    digitalWrite(Red_LED, LOW);   // LED is off
+    digitalWrite(Blue_LED, LOW);  // LED is off
+    digitalWrite(Yellow_LED, LOW);// LED is off
+    digitalWrite(Green_LED,HIGH); // LED turns on
+    digitalWrite(Blue_LED_2,LOW); // LED is off
+
+ }
+  else if (ledChoice == 4){       // power on only LED five
+    digitalWrite(Red_LED, LOW);   // LED is off
+    digitalWrite(Blue_LED, LOW);  // LED is off
+    digitalWrite(Yellow_LED, LOW);// LED is off
+    digitalWrite(Green_LED,LOW);  // LED is off
+    digitalWrite(Blue_LED_2,HIGH);// LED turns on
+
+
+  }
+}
+
+  
+ 
