@@ -1,0 +1,32 @@
+/* This program uses a PB with a pulldown. 
+Using an external resistor only.
+Read the digital input on pin 12 and prints the value on the serial monitor.
+When PB is pressed the value is 1 because it is connected to the GND.
+Using Serial.print("") that prints data to the serial port as human-readable ASCII text.
+The main theme of this program is the use of 
+Digital input and Serial Monitor. 
+
+ */
+ 
+// constants won't change. They are  used to set pin numbers:
+const int BUTTON_PIN= 12; // the number of the pushbutton pin
+
+void setup() {
+// put your setup code here, to run once:
+Serial.begin(9600);  
+//initialize serial communication at 9600 bits per second
+pinMode(BUTTON_PIN,INPUT); 
+// initialize the pushbutton pin as an input:
+}
+void loop() {
+// put your main code here, to run repeatedly:
+int PBstate = digitalRead(12);  
+// Show the state of pushbutton on serial monitor
+
+Serial.print("PB value is ");
+//print data to the serial port as human-readable ASCII text
+Serial.println(PBstate);
+//print out the value of the pushbutton
+delay(100);
+// delay between each read for stability 
+}
