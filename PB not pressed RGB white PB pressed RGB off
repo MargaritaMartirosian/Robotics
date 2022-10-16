@@ -9,7 +9,7 @@ The RGB functions with the PB because of the PBstate command.
 
 Using Serial.print("") that prints data to the serial port as human-readable ASCII text.
 The main theme of this program is the use of 
-the command INPUT_PULLUP that is for an internal resistor. 
+the command digitalWrite and INUPT_PULLUP command  that is for an internal resistor. 
 
  */
  
