@@ -1,0 +1,37 @@
+/* This program is used to print out the Bit value and Voltage value on the serial monitor.
+Using a potentiometer connected to an Analog pin (A0) of the Arduino Uno.
+Resistance value ( 0 -1023), coming from the potentiometer.
+Voltage value (0-5), coming from the potentiometer.
+Using float to get decimal numbers.
+Using analogRead to read the analog input on pin (A0). 
+Main theme of program is the Analog Read Serial. 
+  */
+ // 
+void setup() {
+  // put your setup code here, to run once:
+  //initialize serial communication at 9600 bits per second
+  Serial.begin(9600);
+ 
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+ 
+  // read the input on analog pin 0 (A0)
+int voltageValue=analogRead(A0);
+  
+  // read the input on analog pin 0:
+int bitValue= analogRead(A0);
+  
+  // Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V):
+float voltage= voltageValue * (5.0 / 1023.0);
+
+{
+Serial.print("Bit value ");     //print data to the serial port as human-readable ASCII text.
+Serial.print(bitValue);         // print out the value of bits
+Serial.print("\t");             // escape sequence for a tab
+Serial.print("Voltage value "); //print data to the serial port as human-readable ASCII text.
+Serial.println(voltage);        // print out the value you read
+
+}
+  }
