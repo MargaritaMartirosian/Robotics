@@ -1,8 +1,10 @@
 /* This program uses a PB with a pullup. 
 Using an external resistor only.
-Read the digital input on pin 12 and prints the value on the serial monitor 
+Read the digital input on pin 12 and prints the value on the serial monitor.
+When PB is pressed the value is 0 because it is connected to the GND 
 The main theme of this program is the use of 
 Digital input and Serial Monitor. 
+
  */
  
 // constants won't change. They are  used to set pin numbers:
