@@ -1,0 +1,57 @@
+/*  This program is used to control the colors of an RGB. 
+By connecting a potentiometer and using the analog commands 
+, we can make different color variations. 
+When using a potentiometer ,we control the voltage by adding or decreasing resistance. 
+The main theme of this program is the analogRead command . */
+
+
+int RGB_RED_PIN= 13;        // pin 13 is connected with red LED
+int RGB_BLUE_PIN =12;       // pin 13 is connected with red LED
+int RGB_GREEN_PIN =11;      // pin 13 is connected with red LED
+int POTENTIOMETER_PIN= A0;  // Analog  pin A0 is connected to the output terminal of potentiometer 
+void digitalWriteRGB(byte red, byte blue, byte green) //reduces the code 
+{
+ // everytime RGB color change, we call digitalWrite() three times
+  digitalWrite(RGB_RED_PIN, red);     // the red pin will be ready to turn on everytime a color change 
+  digitalWrite(RGB_BLUE_PIN, blue);   //the blue pin will be ready to turn on everytime a color change 
+  digitalWrite(RGB_GREEN_PIN, green); //the green pin will be ready to turn on everytime a color change 
+}
+void setup() // put your code here to run once
+{
+  pinMode(RGB_RED_PIN, OUTPUT);  // initialising pin 13 as an output
+  pinMode(RGB_BLUE_PIN, OUTPUT); // initialising pin 12 as an output
+  pinMode(RGB_GREEN_PIN, OUTPUT);// initialising pin 11 as an output
+}
+void loop() // put your code here to run in a loop
+{
+  int potentiometerValue = analogRead(POTENTIOMETER_PIN); 
+  // varibale is pin A0 being read by an analog command 
+  int mode = map(potentiometerValue, 0, 1023, 0, 6);
+  // map(value, fromLow, fromHigh, toLow, toHigh)
+  switch (mode) {// code that should be executed in various conditions
+    case 0:  
+      digitalWriteRGB(HIGH, LOW, LOW);       // only red turns on
+      break; // exit from a switch case statement
+    case 1:
+      digitalWriteRGB(LOW, HIGH, LOW);      // only blue turns on
+      break; // exit from a switch case statement
+    case 2:
+      digitalWriteRGB(LOW, LOW, HIGH);     // only green turns on 
+      break;  // exit from a switch case statement
+    case 3:
+      digitalWriteRGB(HIGH, HIGH, LOW);    // red and blue trun on 
+      break;  // exit from a switch case statement
+    case 4:
+      digitalWriteRGB(HIGH, LOW, HIGH);    // red and green turn on
+      break;  // exit from a switch case statement
+    case 5:
+      digitalWriteRGB(LOW, HIGH, HIGH);    // blue and green turn on
+      break;  // exit from a switch case statement
+    case 6:
+      digitalWriteRGB(HIGH, HIGH, HIGH);   // red, blue and green turn on 
+      break;  // exit from a switch case statement
+    default:
+      digitalWriteRGB(LOW, LOW, LOW);     // RGB truns off
+      break; // exit from a switch case statement
+  }
+}
