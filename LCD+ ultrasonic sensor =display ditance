@@ -1,0 +1,63 @@
+/* Using an ultrasonic sensor HC-SR04. 
+The Trig pin send ultrasound wave from the transmitter, the Echo pin listen for the reflected signal.
+Calculating the distance from the ostacle and displaying on the LCD connected with a potentiometer. 
+Using the pulseln() function, we can measure the ditance from the sensor to the object. 
+Main theme of this program is Ultrasonic sensor. */
+
+
+const int echoPin = 9;// attach pin 9 Arduino to pin Echo of HC-SR04
+const int trigPin = 8;// attach pin 8 Arduino to pin Echo of HC-SR04
+int RS = 12; //pin RS of LCD its attached to pin 12 of Arduino UNO
+int EN =11;  //pin EN of LCD its attached to pin 12 of Arduino UNO
+int D4 =5;   //pin D4 of LCD its attached to pin 12 of Arduino UNO
+int D5= 4;   //pin D5 of LCD its attached to pin 12 of Arduino UNO
+int D6 = 3;  //pin D6 of LCD its attached to pin 12 of Arduino UNO
+int D7 = 2;  //pin D7 of LCD its attached to pin 12 of Arduino UNO
+int  potentiometer =A0;  
+// analog pin A0 of arduino Uno is connected to potentiometer 
+
+// include the library code:
+#include <LiquidCrystal.h>
+
+LiquidCrystal lcd ( RS,EN,D4,D5,D6,D7); // pins used 
+long duration; // variable for the duration of sound wave travel
+int distance; // variable for the distance measurement
+
+
+void setup() {
+  // put your code here to run once 
+  pinMode(trigPin, OUTPUT); // Sets the trigPin as an OUTPUT
+  pinMode(echoPin, INPUT); // Sets the echoPin as an INPUT
+  Serial.begin(9600);      // Serial Communication is starting with 9600 of baudrate speed
+   lcd.begin(16,2);        // lcd starts with resolution 16x2
+}
+void loop() {
+  // put your code here to run in a loop
+
+   int potentiometer =analogRead(A0); 
+   //potentiometer reads pin A0
+  
+  // Clears the trigPin condition
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  // Sets the trigPin HIGH (ACTIVE) for 10 microseconds
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  // Reads the echoPin, returns the sound wave travel time in microseconds
+  duration = pulseIn(echoPin, HIGH);
+  // Calculating the distance
+  distance = duration * 0.034 / 2; // Speed of sound wave divided by 2 (go and back)
+
+  float distance = duration * 0.034 / 2; // displaying as a float number (decimal)
+  
+  lcd.setCursor(0, 0); // line 0 , column 0
+  lcd.print(distance); // print the value of distance on LCD
+  lcd.println(" cm                "); // print cm after the value
+ 
+  // Displays the distance on the Serial Monitor
+  Serial.print("Distance = ");// print the word "Distance " before value 
+  Serial.print(distance);     // print the value of distnace on LCD
+  Serial.println(" cm");      // print cm after the value
+ 
+}
