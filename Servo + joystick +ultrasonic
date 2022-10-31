@@ -1,0 +1,69 @@
+/*
+ Controlling a servo position using a potentiometer (variable resistor)
+ by Michal Rinott <http://people.interaction-ivrea.it/m.rinott>
+
+ modified on 8 Nov 2013
+ by Scott Fitzgerald
+ http://www.arduino.cc/en/Tutorial/Knob
+*/
+
+#include <Servo.h>
+
+// define the servos 
+Servo servo1;
+
+//definejoystick pins
+
+int joyX=A0;
+int joyY=A1;
+
+//variable to read the values from the analog pins
+int joyVal;
+const int echoPin = 6;// attach pin 9 Arduino to pin Echo of HC-SR04
+const int trigPin = 11;// attach pin 8 Arduino to pin Echo of HC-SR04
+long duration; // variable for the duration of sound wave travel
+int distance; // variable for the distance measurement
+
+void setup()
+{
+  //attaches our servos on pins PWM 3-5
+  servo1.attach (9);
+   pinMode(trigPin, OUTPUT); // Sets the trigPin as an OUTPUT
+  pinMode(echoPin, INPUT); // Sets the echoPin as an INPUT
+  Serial.begin(9600);      // Serial Communication is starting with 9600 of baudrate speed
+ 
+  
+}
+
+void loop()
+{
+
+  //read the value of joystick between 0-1023)
+  joyVal=analogRead(joyX);
+  joyVal=map(joyVal,0,1023,0,180);
+  servo1.write(joyVal); // set the servo position according to the joystick value 
+
+  joyVal=analogRead(joyY);
+  joyVal=map(joyVal,0,1023,0,180);
+  servo1.write(joyVal); // set the servo position according to the joystick value 
+  delay(15);
+
+   digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  // Sets the trigPin HIGH (ACTIVE) for 10 microseconds
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  // Reads the echoPin, returns the sound wave travel time in microseconds
+  duration = pulseIn(echoPin, HIGH);
+  // Calculating the distance
+  distance = duration * 0.034 / 2; // Speed of sound wave divided by 2 (go and back)
+
+  float distance = duration * 0.034 / 2; // displaying as a float number(decimal)
+
+   // Displays the distance on the Serial Monitor
+  Serial.print("Distance = ");// print the word "Distance " before value 
+  Serial.print(distance);     // print the value of distnace on LCD
+  Serial.println(" cm");      // print cm after the value
+ 
+}
