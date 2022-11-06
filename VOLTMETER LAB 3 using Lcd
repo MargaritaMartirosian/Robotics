@@ -1,0 +1,56 @@
+/*
+ Using LiquidCrystal Library.
+This program is used to demonstrate the use of a 16x2 LCD display.
+Displaying the voltage and bit value on the lcd.
+Using two potentiometers, the first one controls de voltage and the other controls the brightness on lcd.
+The main theme of the program is LiquidCrystal.
+*/
+
+// include the library code:
+#include <LiquidCrystal.h>
+
+//initialize the library by associating any needed LCD interface
+//pin with the arduino pin number it is connected to
+const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+
+// Potentiometer that reads the voltage is connected to the pin A0 of Arduino UNO
+int voltageValue=A0; 
+
+void setup() 
+  // put your code here to run once {
+  // set up the LCD's number of columns and rows:
+  lcd.begin(16, 2);
+  // clear lcd screen
+  lcd.clear(); 
+  // initialize serial communication at 9600 bits per second
+  Serial.begin(9600);
+
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly
+
+  int voltageValue=analogRead(A0);  // read the input on analog pin 0 on UNO
+  int bitValue= analogRead(A0);     // read the input on analog pin 0 on UNO
+
+  float voltage= voltageValue * (5.0 / 1023.0);  
+   // Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V):
+ 
+   lcd.setCursor(0,0);             // set the cursor to column 0, line 0:
+   lcd.print("Voltage ");          // print data to the serial port as human-readable ASCII text.
+   lcd.print(voltage);             // print out the voltage value
+
+   
+   lcd.setCursor(0,1);             // set the cursor to column 0, line 1:
+   lcd.print("Bit Value ");        // print data to the serial port as human-readable ASCII text.
+   lcd.print(bitValue);            // print out the value of bits
+
+   Serial.print("Bit Value ");     // print data to the serial port as human-readable ASCII text.
+   Serial.print(bitValue    );     // print out the value of bits
+   Serial.print("\t"   );          // escape sequence for a tab
+   Serial.print("Voltage Value  ");// print data to the serial port as human-readable ASCII text. 
+   Serial.println(voltage);        // print out the value you read
+   lcd. clear();                   // clear lcd screen 
+}
