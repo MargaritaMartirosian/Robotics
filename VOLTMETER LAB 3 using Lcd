@@ -17,7 +17,7 @@ LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 // Potentiometer that reads the voltage is connected to the pin A0 of Arduino UNO
 int voltageValue=A0; 
 
-void setup() 
+void setup() {
   // put your code here to run once {
   // set up the LCD's number of columns and rows:
   lcd.begin(16, 2);
