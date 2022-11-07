@@ -1,0 +1,18 @@
+int IBpin = 11;
+int IApin =10;
+
+void setup (){
+  pinMode (IBpin, OUTPUT);
+  pinMode (IApin,OUTPUT); 
+}
+ void loop() { 
+  digitalWrite( IBpin , HIGH);
+  digitalWrite( IApin, LOW);
+  delay(500);
+
+  digitalWrite(IBpin, LOW);
+  digitalWrite(IApin,HIGH);
+  delay(500);
+  
+ }
+ 
