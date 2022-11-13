@@ -1,0 +1,28 @@
+/* This program is used to make an ohmmeter with Arduino. 
+By converting bits into voltage and volatge into resistance by equations. 
+We use a reference resistor , 10k and a resistor that we want to know the value of. 
+The main theme of this program is the converstion from volts to resistance. 
+ */
+const int sensorPin = A0;  // Analog input pin that senses the Vout 
+int sensorValue = 0;       // sensorPin default value
+float Rref = 10000;        // Reference resistor's value in ohms 
+float tested_R = 0;          // Tested resistors default value
+float Vin = 5;             // Input voltage
+float Vout = 0;            // Vout default value
+
+void setup ()              // put your code here to run once 
+{
+  Serial.begin(9600);      // Initialize serial communications at 9600 bps
+}
+
+void loop ()               // put your code here to run in a loop
+{
+  sensorValue = analogRead(sensorPin);  // Read Vout on analog input pin A0 
+  Vout = (Vin * sensorValue) / 1023;    // Convert Vout in bits to volts
+  tested_R = Rref * (1 / ((Vin / Vout) - 1));  // Formula to calculate tested resistor's value
+  Serial.print("Resistance is : ");     // Prints text in serial monitor              
+  Serial.println(tested_R);                    // Give calculated resistance in serial monitor
+  delay(1000);                          // Delay in milliseconds between reeds 
+                                        // Delay is used to red in a balanced way 
+}
+
