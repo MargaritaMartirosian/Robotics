@@ -1,0 +1,76 @@
+/*This program consits of a Arduino Uno , LCD , humidity and temperature sensor DHT11 and ultrasonic sensor HC-SR04. 
+My connecting the sensors to the LCD we can display the values of distance and tempereature  it and on the Serial Monitor.
+For the ultrasonic sensor,calculating the distance from the ostacle and displaying on the LCD connected with a potentiometer. 
+Using the pulseln() function, we can measure the ditance from the sensor to the object. 
+For the DHT11 sensor using the data pin connected to pin 7 on Arduino UNO. 
+Including libraries such as <Adafruit_Sensor.h> , <LiquidCrystal.h> and including  "DHT.h"  .
+Main theme of this program is the use of two different sensors display values on serial monitor and LCD.*/
+
+
+#include <Adafruit_Sensor.h> // library included 
+#include "DHT.h"             // library included 
+#define Type DHT11           // infroming program that the sensor type used is DHT11
+#include <LiquidCrystal.h>   // library included 
+const int echoPin = 9;       // attach pin 9 Arduino to pin Echo of HC-SR04
+const int trigPin = 8;       // attach pin 8 Arduino to pin Echo of HC-SR04
+int rs =12;                  // pin number for pin rs of LCD
+int en =11;                  // pin number for pin en of LCD
+int d4 = 5;                  // pin number for pin d4 of LCD
+int d5 = 4;                  // pin number for pin d5 of LCD
+int d6 = 3;                  // pin number for pin d6 of LCD
+int d7 = 2;                  // pin number for pin d7 of LCD
+int  potentiometer =A0;      // analog pin A0 of arduino Uno is connected to potentiometer 
+
+// initialize the library with the numbers of the interface pins
+LiquidCrystal lcd(rs,en,d4,d5,d6,d7); 
+long duration;         // variable for the duration of sound wave travel
+int distance;          // variable for the distance measurement
+int sensePin= 7;       // DHT11 data pin is connected to pin 7 of Arduino UNO
+DHT HT(sensePin,Type); //using sensor type DHT11 connected to pin 7 
+float tempC;           //floating-point number for temperature level 
+
+void setup(){               // put your setup code here, to run once:
+  Serial.begin(9600);       // initialize serial communication at 9600 bits per second
+  HT.begin();               // output information from Arduino to computer 
+  delay(500);               //500ms 
+  lcd.begin(16,2);          // set up the LCD's number of columns and rows: 
+  pinMode(trigPin, OUTPUT); // Sets the trigPin as an OUTPUT
+  pinMode(echoPin, INPUT);  // Sets the echoPin as an INPUT
+}
+
+ void loop() {    // put your main code here, to run repeatedly:
+  
+  // Clears the trigPin condition
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  
+  // Sets the trigPin HIGH (ACTIVE) for 10 microseconds
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  
+  // Reads the echoPin, returns the sound wave travel time in microseconds
+  duration = pulseIn(echoPin, HIGH);
+  
+  // Calculating the distance
+  distance = duration * 0.034 / 2;       // Speed of sound wave divided by 2 (go and back)
+  float distance = duration * 0.034 / 2; // displaying as a float number (decimal)
+  
+  tempC=HT.readTemperature();// read temperature level with the sensor 
+  lcd.setCursor(0,0);        // set the cursor on the first row and column 
+  lcd.print ("Dstance = ");  //print word "Distance" on LCD        
+  lcd.print(distance);       // print the value of distance on LCD
+  lcd.println(" cm                "); // print cm after the value
+  lcd.setCursor(0,1);       //set the cursor on the second row and first column
+  lcd.print("Temp = ");     //print the word "Temperature" on LCD
+  lcd.print(tempC);         //print the temperature in degree celsius
+
+
+  Serial.print("Distance = ");// print the word "Distance " before value 
+  Serial.print(distance);     // print the value of distnace on LCD
+  Serial.println(" cm");      // print cm after the value
+  Serial.print("Temp = ");    //print the word "Temperature" on serial monitor
+  Serial.println(tempC);      //print the temperature in degree celsius
+
+
+ }
