@@ -1,0 +1,53 @@
+/*This program is used to control a Micro servi SG90 with an LDR. 
+Display the bit , voltage and resistance value on the serial monitor. 
+The main theme of this program is analogRead 
+ */
+#include<Servo.h> //Servo.h library included 
+int lightval;     // variable for LDR
+int bitVal;       // variable for LDR bit value
+int voltageVal;   // variable for LDR voltage value 
+int resistanceVal;// variable for LDR resistance value 
+//-----------------------------------
+float Rref = 10000;    // Reference resistor's value in ohms 
+float tested_R = 0;    // Tested resistors default value
+float Vin = 5;         // Input voltage
+float Vout = 0;        // Vout default value
+//-----------------------------------
+int lightpin=A0; // pin used for LDR 
+int servopin=3;  // pin used for servo
+Servo myservo;   // name for servo used 
+int angle;       // variable angle 
+//-----------------------------------
+
+void setup() {  // code runs once 
+Serial.begin(9600); // Serial Communication is starting with 9600 of baudrate speed
+pinMode(lightpin,INPUT); // sets lightpin as an INPUT 
+myservo.attach(servopin);// servo motor rotates to the last value set by Servo
+pinMode(servopin,OUTPUT);// sets servopin as an OUTPUT
+}
+
+void loop() { // code runs in a loop
+  lightval=analogRead(lightpin); // variable lightval is the result of the reading of pin A0 
+  bitVal=analogRead(lightpin);   // variable  bitVal is the result of the reading of pin A0 
+ //--------------------------------------------------------------------------
+  voltageVal =analogRead(lightpin);// variable voltageVal is the result of the reading of pin A0 
+  float voltage= voltageVal * (5.0 / 1023.0);  // equation that transforms a bit reading into voltage 
+ //--------------------------------------------------------------------------
+  resistanceVal =analogRead(lightpin);       // variable resistanceVal is the result of the reading of pin A0 
+  Vout = (Vin * resistanceVal) / 1023;       // Convert Vout in bits to volts
+  tested_R = Rref * (1 / ((Vin / Vout) - 1));// Formula to calculate tested resistor's value
+ //--------------------------------------------------------------------------
+  angle= lightval/5;   //equation that divides the reading of pin A0 by 5 to get the angle                      
+  myservo.write(angle);//the servo moves and postions its self by the reslut of equation 
+ //-------------------------------------------------------------------------- 
+   Serial.print("Bit Value ");     // print data to the serial port as human-readable ASCII text.
+   Serial.println(bitVal);         // print out the value of bits 
+ //---
+   Serial.print("Voltage Value  ");// print data to the serial port as human-readable ASCII text. 
+   Serial.print(voltage);        // print out the value of voltage in Volts 
+   Serial.println("v");// print data to the serial port as human-readable ASCII text
+ //---
+   Serial.print("Resistance Value  ");// print data to the serial port as human-readable ASCII text. 
+   Serial.print(tested_R);        // print out the value of resistance in Ohms 
+   Serial.println("Ω");           // print data to the serial port as human-readable ASCII text.
+  }
