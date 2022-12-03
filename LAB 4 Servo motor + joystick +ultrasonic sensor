@@ -1,0 +1,63 @@
+/*
+Controlling Micro servo  SG90 using a joystick, connecting ultrasonic sensor HC-SR04. 
+This program is used to stimulate a ultrasonic sensor 
+being moved by a servo motor that is controlled with a joystick. 
+Main theme of program is servo write and map used in joystick code. 
+*/
+
+#include <Servo.h> // include servo library 
+
+Servo servo1;      // define the servos 
+
+//definejoystick pins
+int joyX=A0; // X axis connected to anolog pin 0
+int joyY=A1; // Y axis connected to anolog pin 1
+
+int joyVal;            //variable to read the values from the analog pins
+const int echoPin = 6; // attach pin 6 Arduino to pin Echo of HC-SR04
+const int trigPin = 11;// attach pin 11 Arduino to pin Trig of HC-SR04
+long duration;         // variable for the duration of sound wave travel
+int distance;          // variable for the distance measurement
+
+void setup()           // code used once 
+{
+  servo1.attach (9);   //attaches our servo on pins 9 for data
+   pinMode(trigPin, OUTPUT); // Sets the trigPin as an OUTPUT
+  pinMode(echoPin, INPUT);   // Sets the echoPin as an INPUT
+  Serial.begin(9600);        // Serial Communication is starting with 9600 of baudrate speed
+ 
+  
+}
+
+void loop()     // code runs in a loop
+{
+ // This code is used if needed and by choice of using the X axis 
+  /*joyVal=analogRead(joyX);        //read the value of joystick between 0-1023 using X axis
+  joyVal=map(joyVal,0,1023,0,180);// map bits and degree of movement 
+  servo1.write(joyVal);           // set the servo position according to the joystick value 
+  */
+  joyVal=analogRead(joyY);         //read the value of joystick between 0-1023 using Y axis
+  joyVal=map(joyVal,0,1023,0,180); // map bits and degree of movement 
+  servo1.write(joyVal);            // set the servo position according to the joystick value 
+  delay(15);                       // delay for balance 
+
+  // Sets the trigPin LOW  (UNACTIVE) for 2 µs
+  digitalWrite(trigPin, LOW);     
+  delayMicroseconds(2);
+  // Sets the trigPin HIGH (ACTIVE) for 10 µs
+  // generating ultrasound wave 
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  // Reads the echoPin, returns the sound wave travel time in microseconds
+  duration = pulseIn(echoPin, HIGH);
+  // Calculating the distance
+  distance = duration * 0.034 / 2; // Speed of sound wave divided by 2 (go and back)
+
+  float distance = duration * 0.034 / 2; // displaying as a float number(decimal)
+
+   // Displays the distance on the Serial Monitor
+  Serial.print("Distance = ");// print the word "Distance " before value 
+  Serial.print(distance);     // print the value of distnace
+  Serial.println(" cm");      // print cm after the value
+}
