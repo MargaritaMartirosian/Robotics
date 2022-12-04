@@ -1,0 +1,250 @@
+/* This program is used to control the direction and speed of a 5VDC steppper motor 
+using an Infrared remote. The IR remote sends signal to an IR receiver HX1838.
+Displaying characters on the serial monitor by using HEX language with the IR remote.
+Main theme of program is the use of a control structre Switch ..case. 
+Button = HEX
+CH-  = 0xFFA25D
+CH   = 0xFF629D
+CH+  = 0xFFE21D
+<<   = 0xFF22DD
+>>   = 0xFF02FD
+>||  = 0xFFC23D
+–    = 0xFFE01F
++    = 0xFFA857
+EQ   = 0xFF906F
+100+ = 0xFF9867
+200+ = 0xFFB04F
+  0  = 0XFF6897
+  1  = 0xFF30CF
+  2  = 0xFF18E7
+  3  = 0xFF7A85
+  4  = 0xFF10EF
+  5  = 0xFF38C7
+  6  = 0xFF5AA5
+  7  = 0xFF42BD
+  8  = 0xFF4AB5
+  9  = 0xFF52AD
+
+ */
+#include "Stepper.h" // include Stepper Motor Library 
+#include "IRremote.h"// include Infrared remote Library 
+
+int STEPS = 32;    // Number of steps per revolution
+int Steps ;        // 2048 = 1 Revolution
+int receiver = 12; // Signal Pin of IR receiver to Arduino Digital Pin 6
+int Speed = 1000;  //Declaring int used for speed of Motor is 1000
+int Direction;     //Declaring int used  for the direction of Motor 
+int KeyValue = 0 ; //storing the hex code in a global variable Value  every time a code is received
+
+//---------------------------------------------------------------------
+
+// Pins entered in sequence IN1-IN3-IN2-IN4 for proper step sequence
+Stepper steppermotor(STEPS, 8, 10, 9, 11);
+IRrecv irrecv(receiver);    // create instance of 'irrecv'
+decode_results results;     // create instance of 'decode_results'
+
+//---------------------------------------------------------------------
+void setup() // code will run once
+{ 
+  Serial.begin(9600);  // Serial Communication is starting with 9600 of baudrate speed
+  irrecv.enableIRIn(); // Start the receiver
+}
+//---------------------------------------------------------------------
+void loop() // code will run in a loop
+{
+  steppermotor.setSpeed(Speed);  // set the speed of motor to 1000 
+if (irrecv.decode(&results)){   // have we received an IR signal?
+if (results.value == 0XFFFFFFFF)//if the same signal is recieved twice
+      results.value = KeyValue ;// previously stored value is used as the current key press
+
+  
+    switch(results.value)
+
+    {
+
+          case  0xFFA25D: 
+          // Ch- button pressed 
+          //Hex code received 
+          //Arduino prints on SM
+          Serial.println("Go back in past "); 
+          break; // control sctructure
+                 // exit from switch case 
+          
+          case 0xFF629D:
+          // Ch button pressed 
+          //Hex code received 
+          //Arduino prints on SM
+          Serial.println("Present ");
+          break; // control sctructure
+                 // exit from switch case 
+          
+          case 0xFFE21D:
+          //Ch+ button pressed 
+          //Hex code received 
+          //Arduino prints on SM
+          Serial.println("Go into the future");
+          break;// control sctructure
+                 // exit from switch case 
+          
+          case 0xFF22DD:
+          // |<< button pressed 
+          //Hex code received 
+          //Arduino prints on SM
+           Speed  = Speed - 50;
+          Serial.println("Slow down time ");
+          break; // control sctructure
+                 // exit from switch case 
+          
+          case 0xFF02FD:
+          // >>| button pressed 
+          //Hex code received
+          //Arduino prints on SM 
+          Speed  = Speed+50;
+          Serial.println("Advance time ");
+          break ; // control sctructure
+                 // exit from switch case 
+          
+          case 0xFFC23D:
+          // >|| button pressed 
+          //Hex code received
+          //Arduino prints on SM 
+          Direction = 0;
+          Serial.println("turn the clock CW ");
+          break ;// control sctructure
+                 // exit from switch case             
+       
+          case 0xFFE01F:
+          // "-" button pressed 
+          //Hex code received
+          //Arduino prints on SM 
+            Direction = 1;
+          Serial.println("turn the clock CCW");
+          break ;// control sctructure
+                 // exit from switch case 
+      
+          case 0xFFA857:
+          // "+ " button pressed 
+          //Hex code received
+          //Arduino prints on SM 
+          Serial.println("Add dimension");
+          break ;// control sctructure
+                 // exit from switch case   
+          
+          case 0xFF906F:
+          // EQ button pressed 
+          //Hex code received
+          //Arduino prints on SM 
+          Serial.println("Delete dimension");
+          break ;// control sctructure
+                 // exit from switch case   
+          
+          case 0xFF6897:
+          // 0 button pressed 
+          //Hex code received
+          //Arduino prints on SM 
+          Serial.println("Delete World");
+          break ;// control sctructure
+                 // exit from switch case   
+          
+          case 0xFF9867:
+          // 100+ button pressed 
+          //Hex code received
+          //Arduino prints on SM 
+          Serial.println("Create World");
+          break ;// control sctructure
+                 // exit from switch case 
+          
+          case 0xFFB04F:
+          // 200+ button pressed 
+          //Hex code received
+          //Arduino prints on SM 
+          Serial.println("Create Universe ");
+          break ;// control sctructure
+                 // exit from switch case 
+          
+          case 0xFF30CF:
+          // 1 button pressed 
+          //Hex code received
+          //Arduino prints on SM 
+          Serial.println("one dimension ");
+          break ;// control sctructure
+                 // exit from switch case 
+          
+          case 0xFF18E7:
+          // 2 button pressed 
+          //Hex code received
+          //Arduino prints on SM 
+          Serial.println("two dimension");
+          break ;// control sctructure
+                 // exit from switch case 
+          
+          case 0xFF7A85:
+          // 3 button pressed 
+          //Hex code received
+          //Arduino prints on SM 
+          Serial.println("three dimension");
+          break ;// control sctructure
+                 // exit from switch case 
+          
+          case 0xFF10EF:
+          //4 button pressed 
+          //Hex code received
+          //Arduino prints on SM 
+          Serial.println("four dimension");
+          break ;// control sctructure
+                 // exit from switch case 
+          
+          case 0xFF38C7:
+          // 5  button pressed 
+          //Hex code received
+          //Arduino prints on SM 
+          Serial.println("five dimension");
+          break ;// control sctructure
+                 // exit from switch case 
+          
+          case 0xFF5AA5:
+          // 6 button pressed 
+          //Hex code received
+          //Arduino prints on SM 
+          Serial.println("six dimension");
+          break ;// control sctructure
+                 // exit from switch case 
+          
+          case 0xFF42BD:
+          // 7 button pressed 
+          //Hex code received
+          //Arduino prints on SM 
+          Serial.println("seven dimension ");
+          break ;// control sctructure
+                 // exit from switch case 
+          
+          case 0xFF4AB5:
+          // 8 button pressed 
+          //Hex code received
+          //Arduino prints on SM 
+          Serial.println("Enter Black Hole ");
+          break ;// control sctructure
+                 // exit from switch case 
+          
+          case 0xFF52AD:
+          // 9 button pressed
+          //Hex code received
+          //Arduino prints on SM  
+          Serial.println("Enter White Hole ");
+          break ;// control sctructure
+                 // exit from switch case       
+        }
+        KeyValue = results.value; 
+        irrecv.resume(); // receive the next value
+  }
+   if (Direction == 0){//if Direction is 0
+    steppermotor.step(300);   //Turn the stepper motor 300 steps
+  }
+   if (Direction == 1){//if Direction is 1
+    steppermotor.step(-300); //Turn the stepper motor -300 steps
+
+
+    }
+
+  }
+//---------------------------------------------------------------------
