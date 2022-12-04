@@ -1,0 +1,45 @@
+/* This program is used to control the direction and speed of a DC motor with a joystick.
+Using the L9110 bridge to control the pins and send signal.
+The main theme of program is the use of the L9110 pins.
+ */
+const int Forward = 10;  // connect Arduino pin 10 to L9110 Forward Signal 
+const int Backwards = 9; // connect Arduino pin 10 to L9110 Backward Signal 
+const int Joy = A0;      // connect Arduino analog pin to joystick 
+int Speed;    // variable for speed
+int JoyVal;   // variable for Joystick Value 
+//-----------------------------------------------------------------------------
+void setup() { // put code here to run once 
+ pinMode(Forward,OUTPUT);  // declaring pin 10 as an OUTPUT
+ pinMode(Backwards,OUTPUT);// declaring pin 9 as an OUTPUT
+ Serial.begin(9600);       // Serial Communication is starting with 9600 of baudrate speed  
+}
+//-----------------------------------------------------------------------------
+
+void loop() { // put code here to run in a loop 
+ Serial.println(JoyVal);// print out the analog value on serial monitor  
+ JoyVal=analogRead(Joy); // read analog value from the joystick pin A0 
+ 
+//-----------------------------------------------------------------------------
+ if (JoyVal>512){ 
+ Speed =map (JoyVal, 512,1023,0,255); // 512 to 1023 for direction
+                                      //0 to 255 for speed 
+ // convert  values into a PWM signal  
+ analogWrite(Forward,0);
+ // pin 10 is not working when pin 9 is 
+ analogWrite(Backwards, Speed);
+ // pin 9 is working 
+ //Motor going Backwards with changing speed 
+ 
+ }
+//-----------------------------------------------------------------------------
+else { // if JoyVal < 512 
+   Speed = map(JoyVal, 0, 511, 255, 0); //0 to 511 for direction 
+                                        //255 to 0 for speed 
+   // convert  values into a PWM signal 
+    analogWrite(Forward, Speed); 
+    // pin 10 is working 
+    //Motor going Forward with changing speed 
+    analogWrite(Backwards, 0);
+    // pin 9 is not working when pin 10 is 
+}
+}
