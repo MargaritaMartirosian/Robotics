@@ -1,0 +1,85 @@
+int L= A2;
+int M= A1;
+int R= A0;
+int const  AIN1 = 8;
+int const PWMA = 5;
+int const BIN1 = 7;
+int const PWMB = 6;
+int i ;
+int STBY = 3; 
+#define leftV digitalRead(A2)
+#define centerV digitalRead(A1)
+#define rightV digitalRead(A0)
+
+void setup(){
+  Serial.begin(9600);
+  pinMode( L,INPUT);
+  pinMode( M,INPUT);
+  pinMode( R,INPUT);
+  pinMode( i, OUTPUT);
+  pinMode(STBY,OUTPUT);
+  for (int i; i = 0; i <= 255) {
+}
+}
+
+
+void forward () {
+  digitalWrite(STBY,HIGH);
+  digitalWrite(AIN1, 1);
+  analogWrite(PWMA, 126);
+  digitalWrite(BIN1, 1);
+  analogWrite(PWMB, 126);
+  delay(100);
+}
+void left () {
+  digitalWrite(STBY,HIGH);
+  digitalWrite(AIN1, 1);
+  analogWrite(PWMA, 126);
+  digitalWrite(BIN1, 0);
+  analogWrite(PWMB, 126);
+  delay(100);
+}
+void right () {
+  digitalWrite(STBY,HIGH);
+  digitalWrite(AIN1, 0);
+  analogWrite(PWMA, 126);
+  digitalWrite(BIN1, 1);
+  analogWrite(PWMB, 126);
+  delay(100);
+}
+void Stop () {
+  digitalWrite(STBY,LOW);
+  digitalWrite(AIN1, 1);
+  analogWrite(PWMA, 0);
+  digitalWrite(BIN1, 1);
+  analogWrite(PWMB, 0);
+  delay(100);
+}
+void loop() {
+  Serial.println(leftV);
+  delay(500);
+  Serial.println(centerV);
+    delay(500);
+  Serial.println(rightV);
+    delay(500);
+    
+ if ((rightV == 1 )&&(leftV == 1)&&(centerV == 0)){
+ forward();
+}
+
+ if ((rightV == 1 )&&(leftV == 0)&&(centerV == 1)){
+ right();
+}
+ if ((rightV == 0 )&&(leftV == 1)&&(centerV == 1)){
+ left();
+}
+ if ((rightV == 1 )&&(leftV == 1)&&(centerV == 1)){
+ Stop();
+ 
+ if ((rightV == 0 )&&(leftV ==0 )&&(centerV == 0)){
+ Stop();
+ }
+
+ }
+
+}
