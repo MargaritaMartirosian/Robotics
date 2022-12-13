@@ -1,0 +1,88 @@
+int L= A2; //variable left connected to pin A2 of arduino UNO
+int M= A1; //variable middle connected to pin A1 of Arduino UNO
+int R= A0;// varible right connected yo pin A0 of Arduino UNO
+int const  AIN1 = 8;// Motor 1 connected to pin 8 of arduino UNO
+int const PWMA = 5;// Motor 1 connected to pin 5 of arduino UNO
+int const BIN1 = 7;// Motor 2 connected to pin 7 of arduino UNO
+int const PWMB = 6;// Motor 2 connected to pin 6 of arduino UNO
+int i ; // variable i used in for loop
+int STBY = 3; //pin 3 of arduino UNO used for direction
+
+
+#define leftV analogRead(A2)// read bit value of analog pin A2
+#define centerV analogRead(A1)// read bit value of analog pin A1
+#define rightV analogRead(A0)// read bit value of analog pin A0
+
+void setup(){
+  Serial.begin(9600); // 
+  pinMode( L,INPUT);  // pin A2 defined as an Input 
+  pinMode( M,INPUT);  // pin A1 defined as an Input 
+  pinMode( R,INPUT);  //pin A0 defined as an Input 
+  pinMode( i, OUTPUT);// define variable i as an Output
+  pinMode(STBY,OUTPUT);//pin 3 defined as an Output
+  for (int i; i = 0; i <= 255) {
+}
+}
+
+
+void forward () {// function used to move car forward
+  digitalWrite(STBY,HIGH); // pin 3 is high
+  digitalWrite(AIN1, 1);   //motor 1 is High
+  analogWrite(PWMA, 50);
+  digitalWrite(BIN1, 1);
+  analogWrite(PWMB, 50);
+  delay(100);
+}
+void left () {
+  digitalWrite(STBY,HIGH);
+  digitalWrite(AIN1, 1);
+  analogWrite(PWMA, 50);
+  digitalWrite(BIN1, 0);
+  analogWrite(PWMB, 50);
+  delay(100);
+}
+void right () {
+  digitalWrite(STBY,HIGH);
+  digitalWrite(AIN1, 0);
+  analogWrite(PWMA, 50);
+  digitalWrite(BIN1, 1);
+  analogWrite(PWMB, 50);
+  delay(100);
+}
+void Stop () {
+  digitalWrite(STBY,LOW);
+  digitalWrite(AIN1, 1);
+  analogWrite(PWMA, 0);
+  digitalWrite(BIN1, 1);
+  analogWrite(PWMB, 0);
+  delay(100);
+}
+void loop() {
+    Serial.print("Left = ");
+  Serial.println(leftV);
+     Serial.println("\t"   );  
+     Serial.print("Center = ");
+  Serial.print(centerV);
+      // Serial.println("\t"   );  
+       Serial.print(" Right = ");
+  Serial.print(rightV);
+       Serial.print("\t"   );  
+    
+if (centerV>=100){
+ forward();
+}
+
+ if (rightV>43){
+ right();
+}
+ if (leftV>38){
+ left();
+}
+ if ((rightV <40)&&(leftV <40)&&(centerV<40)){
+ Stop();
+ }
+  if ((rightV>100 )&&(leftV>100 )&&(centerV >100)){
+ Stop();
+ }
+
+}
